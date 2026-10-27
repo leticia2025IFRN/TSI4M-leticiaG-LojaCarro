@@ -1,0 +1,6 @@
+### Listar entidades (200)
+GET http://localhost:8080/carro/listarCarros
+
+### GET http://localhost:8080/usuario/listarUsuarios
+
+### Criar entidades (201)
