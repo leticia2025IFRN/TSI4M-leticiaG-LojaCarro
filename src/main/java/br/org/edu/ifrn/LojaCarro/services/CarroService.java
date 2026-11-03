@@ -17,13 +17,12 @@ public class CarroService {
     @Autowired
     public CarroRepository carroRepository;
     @Autowired
-//    public LogService logService;
 
-    public Carro save(Carro c) {
-        validarModelo(c.getModelo());  // Valida o modelo antes de salvar
-        validarPreco(c.getPreco());
-        System.out.printf(LocalDateTime.now() + "INSERT NEW: " +  c.getModelo() + " " + c.getPreco());
-        return carroRepository.save(c);
+    public Carro save(Carro carro) {
+        validarModelo(carro.getModelo());  // Valida o modelo antes de salvar
+        validarPreco(carro.getPreco());
+        System.out.printf(LocalDateTime.now() + "INSERT NEW: " +  carro.getModelo() + " " + carro.getPreco());
+        return carroRepository.save(carro);
     }
 
     // Novo método para deletar por ID
