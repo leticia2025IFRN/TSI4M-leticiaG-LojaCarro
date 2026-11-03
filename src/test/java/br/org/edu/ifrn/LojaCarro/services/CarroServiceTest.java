@@ -16,5 +16,6 @@ public class CarroServiceTest {
 
         assertEquals(carro.getAno() > 1980 && carro.getAno() <= LocalDate.now().getYear(), true);
         assertEquals(carro.getPreco() > 0, true);
+        assertEquals(carro.getId() > 0, true);
     }
 }
