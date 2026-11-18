@@ -2,12 +2,12 @@ package br.org.edu.ifrn.LojaCarro.services;
 
 import br.org.edu.ifrn.LojaCarro.CarroException;
 import br.org.edu.ifrn.LojaCarro.model.Carro;
+import br.org.edu.ifrn.LojaCarro.model.Log;
 import br.org.edu.ifrn.LojaCarro.repository.CarroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,13 +16,26 @@ public class CarroService {
 
     @Autowired
     public CarroRepository carroRepository;
-    @Autowired
 
-    public Carro save(Carro carro) {
-        validarModelo(carro.getModelo());  // Valida o modelo antes de salvar
-        validarPreco(carro.getPreco());
-        System.out.printf(LocalDateTime.now() + "INSERT NEW: " +  carro.getModelo() + " " + carro.getPreco());
-        return carroRepository.save(carro);
+    @Autowired
+    public LogService logService;
+
+    public Carro save(Carro c) {
+        Carro savedCarro = carroRepository.save(c);
+
+        if(savedCarro.getPreco() >= 0){
+            Log log = new Log();
+            log.setHorario(LocalDate.now());
+            log.setIdCarro(savedCarro.getId());
+            log.setIdUsuario(1L);
+            log.setOperacao("salvar carro");
+            log.setParametros("Preco = " + c.getPreco());
+            logService.save(log);
+        }else{
+            System.out.println("Erro ao salvar o carro: " + c);
+        }
+
+        return savedCarro;
     }
 
     // Novo método para deletar por ID

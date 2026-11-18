@@ -1,19 +1,24 @@
 package br.org.edu.ifrn.LojaCarro.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Data;
-import java.time.LocalDateTime;
+
+import java.time.LocalDate;
 
 @Entity
 @Data
-@Table(name = "logs")
 public class Log {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private Long idUsuario;
-    private Long idCarro;
-    private LocalDateTime dataHora;
-    private String operacao;
-    private String parametro;
+    Long id;
+    Long idUsuario;
+    Long idCarro;
+    LocalDate horario;
+    String operacao;
+    String parametros;
+
+
 }

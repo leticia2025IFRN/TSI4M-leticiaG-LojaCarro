@@ -7,10 +7,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class LogService {
-    @Autowired
-    private LogRepository repository;
 
-    public void saveLog(Log log) {
-        repository.save(log);
+    @Autowired
+    private LogRepository logRepository;
+
+    public void save(Log log){
+        logRepository.save(log);
     }
 }

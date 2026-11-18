@@ -1,19 +1,18 @@
 package br.org.edu.ifrn.LojaCarro.model;
 
-import jakarta.persistence.*;
-import lombok.Data;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.*;
 
 @Entity
 @Data
-@Table(name="usuarios")
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-
-    @Column(nullable = false)
+    private Long id;
     String nome;
-
-    @Column(nullable = false)
     String cargo;
+    double salario;
 }
