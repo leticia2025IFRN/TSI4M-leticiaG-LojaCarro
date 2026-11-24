@@ -9,7 +9,7 @@ const campoSenha = document.getElementById("inputSenha");
 const mensagemErro = document.getElementById("mensagemErro");
 
 if (obterUsuarioLogado()) {
-    window.location.replace(consumirRedirecionamento("index.html"));
+    window.location.replace(consumirRedirecionamento("../index.html"));
 }
 
 [campoUsuario, campoSenha].forEach((campo) => {
@@ -44,7 +44,7 @@ formularioLogin.addEventListener("submit", (evento) => {
         cargo: encontrado.cargo
     });
 
-    window.location.replace(consumirRedirecionamento("index.html"));
+    window.location.replace(consumirRedirecionamento("../index.html"));
 });
 
 function exibirErro(texto) {

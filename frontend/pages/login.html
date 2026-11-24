@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LojaCarro - Login</title>
+    <link rel="stylesheet" href="bootstrap-5.3.8-dist/css/bootstrap.min.css">
+</head>
+
+<body class="bg-light" data-pagina="login">
+    <div class="min-vh-100 d-flex align-items-center justify-content-center p-3">
+        <div class="card shadow-sm" style="max-width: 420px; width: 100%;">
+            <div class="card-body p-4">
+                <h1 class="h4 text-center mb-1">LojaCarro</h1>
+                <p class="text-muted text-center mb-4">Acesse a plataforma</p>
+
+                <div id="mensagemErro" class="alert alert-danger d-none" role="alert"></div>
+
+                <form id="formularioLogin">
+                    <div class="mb-3">
+                        <label for="inputUsuario" class="form-label">Usuário</label>
+                        <input type="text" class="form-control" id="inputUsuario" autocomplete="username" required
+                            autofocus>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="inputSenha" class="form-label">Senha</label>
+                        <input type="password" class="form-control" id="inputSenha" autocomplete="current-password"
+                            required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Entrar</button>
+                </form>
+
+                <p class="text-muted small text-center mt-4 mb-0">Acesso de demonstração: admin / admin123</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="login.js"></script>
+</body>
+
+</html>
