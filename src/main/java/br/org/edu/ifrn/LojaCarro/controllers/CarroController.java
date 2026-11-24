@@ -1,98 +1,71 @@
-
 package br.org.edu.ifrn.LojaCarro.controllers;
 
-import br.org.edu.ifrn.LojaCarro.CarroException;
+import br.org.edu.ifrn.LojaCarro.dto.CarroRequestDTO;
+import br.org.edu.ifrn.LojaCarro.dto.CarroResponseDTO;
 import br.org.edu.ifrn.LojaCarro.model.Carro;
 import br.org.edu.ifrn.LojaCarro.services.CarroService;
-import br.org.edu.ifrn.LojaCarro.services.UsuarioService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/carro")
 public class CarroController {
 
-    @Autowired
-    private CarroService carroService;
+    private final CarroService carroService;
 
-    @Autowired
-    private UsuarioService usuarioService;
-
-    // Salvar carro (corrigido para POST)
-    @PostMapping("salvar")
-    public ResponseEntity<Carro> salvarCarro(@RequestBody Carro c) {
-        Carro savedCarro = carroService.save(c);
-        return ResponseEntity.ok(savedCarro);
+    public CarroController(CarroService carroService) {
+        this.carroService = carroService;
     }
 
-    // Atualizar carro (por ID)
+    @PostMapping
+    public ResponseEntity<CarroResponseDTO> salvar(@Valid @RequestBody CarroRequestDTO dto) {
+        Carro salvo = carroService.save(toEntity(dto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(CarroResponseDTO.from(salvo));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CarroResponseDTO>> listar() {
+        List<CarroResponseDTO> carros = carroService.findAll().stream()
+                .map(CarroResponseDTO::from)
+                .toList();
+        return ResponseEntity.ok(carros);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CarroResponseDTO> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(CarroResponseDTO.from(carroService.findById(id)));
+    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<Carro> atualizarCarro(@PathVariable Long id, @RequestBody Carro c) {
-        c.setId(id);  // Define o ID no objeto
-        Carro updatedCarro = carroService.update(c);
-        return ResponseEntity.ok(updatedCarro);
+    public ResponseEntity<CarroResponseDTO> atualizar(@PathVariable Long id,
+                                                      @Valid @RequestBody CarroRequestDTO dto) {
+        Carro carro = toEntity(dto);
+        carro.setId(id);
+        return ResponseEntity.ok(CarroResponseDTO.from(carroService.update(carro)));
     }
 
-    // Deletar carro (por ID)
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarCarro(@PathVariable Long id) {
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
         carroService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
-    // Pesquisar carro por ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Carro> pesquisarCarroPorId(@PathVariable Long id) {
-        Optional<Carro> carro = carroService.findById(id);
-        return carro.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
-    }
-
-    // Pesquisar todos os carros
-    @GetMapping("/listarCarros")
-    public ResponseEntity<List<Carro>> pesquisarTodosCarros() {
-        List<Carro> carros = carroService.findAll();
-        return ResponseEntity.ok(carros);
-    }
-
-    @PostMapping(value = "/getCarro", consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Carro> pesquisarCarroPorModelo(@RequestBody String modelo) {
-        Optional<Carro> carro = carroService.findByModelo(modelo.trim());
-        return carro.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
-    }
-
-    @PostMapping(value = "/deleteCarro", consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
-    public ResponseEntity<String> deletarCarroPorModelo(@RequestBody String modelo) {
-        Carro carro = carroService.deleteByModelo(modelo.trim());
-        return ResponseEntity.ok("Carro deletado: " + carro.getModelo());
-    }
-
-    @PostMapping(value = "/updateCarro", consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Carro> atualizarCarroPorModelo(@RequestBody String payload) {
-        String[] partes = payload.split(",", 2);
-        if (partes.length < 2) {
-            throw new CarroException("Payload inválido. Use modelo,preco.");
-        }
-        String modelo = partes[0].trim();
-        double preco = parsePreco(partes[1].trim());
-        Carro updatedCarro = carroService.updateByModelo(modelo, preco);
-        return ResponseEntity.ok(updatedCarro);
-    }
-
-    @PostMapping(value = "/teste", consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
-    public ResponseEntity<String> bomDia(@RequestBody String nome) {
-        return ResponseEntity.ok("Bom dia, " + nome.trim());
-    }
-
-    private double parsePreco(String preco) {
-        try {
-            return Double.parseDouble(preco);
-        } catch (NumberFormatException ex) {
-            throw new CarroException("Preço inválido: " + preco);
-        }
+    private Carro toEntity(CarroRequestDTO dto) {
+        Carro carro = new Carro();
+        carro.setModelo(dto.modelo());
+        carro.setAno(dto.ano());
+        carro.setPreco(dto.preco());
+        return carro;
     }
 }

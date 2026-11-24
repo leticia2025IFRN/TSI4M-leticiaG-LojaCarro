@@ -1,36 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>LojaCarro - Cadastro</title>
     <link rel="stylesheet" href="bootstrap-5.3.8-dist/css/bootstrap.min.css">
 </head>
 
 <body>
-    <div class="container w-50 mb-5 mt-4">
+    <div class="container w-75 mb-5 mt-4">
+        <h3>Cadastro de carros</h3>
         <form action="index.html" method="post" class="d-flex w-100 gap-2" id="formularioCadastro">
-            <input type="text" class="form-control" id="inputNome" placeholder="Nome">
-            <input type="text" class="form-control" id="inputCurriculo" placeholder="Curriculo">
-            <input type="number" class="form-control" id="inputSalario" placeholder="Salario">
+            <input type="text" class="form-control" id="inputModelo" placeholder="Modelo" maxlength="100" required>
+            <input type="number" class="form-control" id="inputAno" placeholder="Ano" min="1886" required>
+            <input type="number" class="form-control" id="inputPreco" placeholder="Preço" min="0" step="0.01" required>
             <button type="submit" class="btn btn-success" id="subimitButton">Adicionar</button>
         </form>
     </div>
 
 
-    <div class="container w-50 justify-content-center">
+    <div class="container w-75 justify-content-center">
         <table class="table text-center">
             <thead>
                 <tr class="table-dark">
                     <th scope="col">Id</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Rusumo/Curriculo</th>
-                    <th scope="col">Editar/Deletar</th>
+                    <th scope="col">Modelo</th>
+                    <th scope="col">Ano</th>
+                    <th scope="col">Preço</th>
+                    <th scope="col">Editar/Excluir</th>
                 </tr>
             </thead>
-            <tbody id="funcionarios">
-                
+            <tbody id="carros">
+
             </tbody>
         </table>
     </div>
@@ -42,17 +44,18 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Tem certeza que quer deletar esse funcionario?</p>
+                    <p>Tem certeza que quer excluir esse carro?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
-                    <button type="button" class="btn btn-primary" onclick="deletarFuncionario()">Sim</button>
+                    <button type="button" class="btn btn-primary" id="btnConfirmarExclusao">Sim</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="bootstrap-5.3.8-dist/js/bootstrap.min.js"></script>
+    <script src="bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="auth.js"></script>
     <script src="index.js"></script>
 </body>
 

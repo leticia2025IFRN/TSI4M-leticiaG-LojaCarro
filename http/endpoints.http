@@ -1,6 +1,57 @@
-### Listar entidades (200)
-GET http://localhost:8080/carro/listarCarros
+### Listar carros (200)
+GET http://localhost:8080/carro
 
-### GET http://localhost:8080/usuario/listarUsuarios
+### Buscar carro por ID (200)
+GET http://localhost:8080/carro/1
 
-### Criar entidades (201)
+### Criar carro (201)
+POST http://localhost:8080/carro
+Content-Type: application/json
+
+{
+  "modelo": "Fusca",
+  "ano": 1990,
+  "preco": 15000.00
+}
+
+### Atualizar carro (200)
+PUT http://localhost:8080/carro/1
+Content-Type: application/json
+
+{
+  "modelo": "Gol",
+  "ano": 2000,
+  "preco": 25000.00
+}
+
+### Deletar carro (204)
+DELETE http://localhost:8080/carro/1
+
+### Listar usuários (200)
+GET http://localhost:8080/usuario
+
+### Buscar usuário por ID (200)
+GET http://localhost:8080/usuario/1
+
+### Criar usuário (201)
+POST http://localhost:8080/usuario
+Content-Type: application/json
+
+{
+  "nome": "Maria",
+  "cargo": "Gerente",
+  "salario": 3500.00
+}
+
+### Atualizar usuário (200)
+PUT http://localhost:8080/usuario/1
+Content-Type: application/json
+
+{
+  "nome": "Joana",
+  "cargo": "Diretora",
+  "salario": 5000.00
+}
+
+### Deletar usuário (204)
+DELETE http://localhost:8080/usuario/1
