@@ -1,4 +1,4 @@
-const urlBase = "http://localhost:8080/carro";
+import { urlBase } from "./services/api";
 let idCarroParaExcluir = null;
 
 document.addEventListener("DOMContentLoaded", () => {
