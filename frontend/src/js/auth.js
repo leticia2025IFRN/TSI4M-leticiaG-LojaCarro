@@ -31,7 +31,7 @@ export function consumirRedirecionamento(destinoPadrao) {
 }
 
 function urlLogin() {
-    return window.location.pathname.includes("pages/") ? "login.html" : "login.html";
+    return window.location.pathname.includes("pages/") ? "../login.html" : "login.html";
 }
 
 function encerrarSessao() {
