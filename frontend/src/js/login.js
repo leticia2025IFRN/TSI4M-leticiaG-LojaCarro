@@ -1,3 +1,9 @@
+import {
+    obterUsuarioLogado,
+    salvarUsuarioLogado,
+    consumirRedirecionamento
+} from "./auth"
+
 const USUARIOS = [
     { usuario: "admin", senha: "admin123", nome: "Administrador", cargo: "Administrador" },
     { usuario: "vendedor", senha: "vendas123", nome: "Vendedor", cargo: "Vendedor" }
@@ -9,7 +15,7 @@ const campoSenha = document.getElementById("inputSenha");
 const mensagemErro = document.getElementById("mensagemErro");
 
 if (obterUsuarioLogado()) {
-    window.location.replace(consumirRedirecionamento("../index.html"));
+    window.location.replace(consumirRedirecionamento("index.html"));
 }
 
 [campoUsuario, campoSenha].forEach((campo) => {
@@ -44,7 +50,7 @@ formularioLogin.addEventListener("submit", (evento) => {
         cargo: encontrado.cargo
     });
 
-    window.location.replace(consumirRedirecionamento("../index.html"));
+    window.location.replace(consumirRedirecionamento("index.html"));
 });
 
 function exibirErro(texto) {

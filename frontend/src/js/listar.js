@@ -1,4 +1,5 @@
 import { urlBase } from "./services/api";
+import "./auth";
 
 document.addEventListener("DOMContentLoaded", listarCarros);
 

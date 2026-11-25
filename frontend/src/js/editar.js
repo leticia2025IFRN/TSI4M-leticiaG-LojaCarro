@@ -1,4 +1,6 @@
 import { urlBase } from "./services/api";
+import "./auth";
+
 const parametros = new URLSearchParams(window.location.search);
 const idCarro = parametros.get("id");
 

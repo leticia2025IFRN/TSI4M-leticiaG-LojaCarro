@@ -1,7 +1,7 @@
 const CHAVE_SESSAO = "lojaCarroUsuario";
 const CHAVE_REDIRECIONAMENTO = "lojaCarroRedirecionamento";
 
-function obterUsuarioLogado() {
+export function obterUsuarioLogado() {
     const dados = sessionStorage.getItem(CHAVE_SESSAO);
     if (!dados) {
         return null;
@@ -20,18 +20,18 @@ function obterUsuarioLogado() {
     }
 }
 
-function salvarUsuarioLogado(usuario) {
+export function salvarUsuarioLogado(usuario) {
     sessionStorage.setItem(CHAVE_SESSAO, JSON.stringify(usuario));
 }
 
-function consumirRedirecionamento(destinoPadrao) {
+export function consumirRedirecionamento(destinoPadrao) {
     const destino = sessionStorage.getItem(CHAVE_REDIRECIONAMENTO);
     sessionStorage.removeItem(CHAVE_REDIRECIONAMENTO);
     return destino || destinoPadrao;
 }
 
 function urlLogin() {
-    return window.location.pathname.includes("/pages/") ? "../login.html" : "login.html";
+    return window.location.pathname.includes("pages/") ? "login.html" : "login.html";
 }
 
 function encerrarSessao() {
@@ -41,7 +41,7 @@ function encerrarSessao() {
 }
 
 function montarBarraUsuario(usuario) {
-    const emSubpasta = window.location.pathname.includes("/pages/");
+    const emSubpasta = window.location.pathname.includes("pages/");
     const raiz = emSubpasta ? "../" : "";
 
     const barra = document.createElement("nav");

@@ -1,4 +1,6 @@
 import { urlBase } from "./services/api";
+import "./auth";
+
 let idCarroParaExcluir = null;
 
 document.addEventListener("DOMContentLoaded", () => {
