@@ -41,7 +41,12 @@ O perfil `test` habilita o console do H2 em `http://localhost:8080/h2-console`
 
 ## Endpoints
 
-### Carros
+### Autenticação
+
+- `POST /auth/login` — autenticar e obter token
+- `POST /auth/logout` — invalidar token
+
+### Carros (requer `Authorization: Bearer <token>`)
 
 - `GET /carro` — listar
 - `GET /carro/{id}` — buscar por ID
@@ -49,7 +54,7 @@ O perfil `test` habilita o console do H2 em `http://localhost:8080/h2-console`
 - `PUT /carro/{id}` — atualizar
 - `DELETE /carro/{id}` — remover
 
-### Usuários
+### Usuários (requer `Authorization: Bearer <token>`)
 
 - `GET /usuario` — listar
 - `GET /usuario/{id}` — buscar por ID
@@ -61,18 +66,28 @@ Exemplos de requisições estão em `http/endpoints.http`.
 
 ## Frontend
 
-Abra `frontend/login.html` com um servidor local (por exemplo, Live Server na porta 5500).
-O CORS aceita por padrão `http://127.0.0.1:5500` e `http://localhost:5500`; para outra origem, defina
-`CORS_ORIGINS` com a origem completa (esquema + host + porta, sem caminho e sem barra final).
+O front-end usa Vite e deve rodar na porta 5173. O CORS já aceita por padrão
+`http://127.0.0.1:5173` e `http://localhost:5173`; para outra origem, defina `CORS_ORIGINS`
+com a origem completa (esquema + host + porta, sem caminho e sem barra final).
+
+```bash
+cd frontend
+corepack yarn install
+corepack yarn dev
+```
+
+A URL da API é lida de `VITE_API_BASE_URL` (padrão `http://localhost:8080`).
+Depois acesse `http://localhost:5173/login.html`.
 
 ### Login
 
-O acesso às páginas é protegido por uma sessão no `sessionStorage`. Credenciais de demonstração:
+A autenticação é feita no back-end (`POST /auth/login`), que valida a senha armazenada com hash BCrypt
+e devolve um token. O token fica no `sessionStorage` e é enviado no cabeçalho `Authorization` das
+requisições a `/carro` e `/usuario`. Os usuários de demonstração são criados automaticamente na inicialização:
 
 | Usuário | Senha |
 |---|---|
 | `admin` | `admin123` |
 | `vendedor` | `vendas123` |
 
-A autenticação atual é apenas no front-end (protótipo). Para segurança real, ela deve ser substituída
-por um endpoint de login no backend com senha armazenada com hash e sessão/token autenticado no servidor.
+Os tokens ficam em memória no servidor: ao reiniciar o back-end, é necessário fazer login novamente.
